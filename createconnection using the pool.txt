@@ -1,0 +1,30 @@
+const mysql = require('mysql');
+
+// Create a connection pool
+const pool = mysql.createPool({
+  host: 'your_mysql_host',
+  user: 'your_mysql_user',
+  password: 'your_mysql_password',
+  database: 'your_mysql_database',
+  connectionLimit: 10, // You can adjust the connection limit based on your needs
+});
+
+// Use the pool to make a query
+pool.query('SELECT * FROM your_table', (error, results, fields) => {
+  if (error) {
+    console.error('Error executing query:', error);
+    return;
+  }
+
+  // Process the results here
+  console.log('Query results:', results);
+});
+
+// Don't forget to release the connection when you're done with it
+pool.end((err) => {
+  if (err) {
+    console.error('Error closing the pool:', err);
+  } else {
+    console.log('Connection pool closed');
+  }
+});
